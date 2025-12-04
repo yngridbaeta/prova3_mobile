@@ -504,6 +504,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final bannerHeight = screenWidth * 0.55;
+
     if (isLoading) {
       return const Scaffold(
         backgroundColor: Color(0xFF050505),
@@ -514,44 +518,53 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            // Header com banner
-            Container(
-              height: 200,
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 0, 0, 0),
-  
-              ),
-
-              child: Stack(
-                children: [
-                  Center(
-                    child: ClipRRect(
-                      child: Image.asset(
-                        'assets/images/banner.png',
-                        width: 450,
-                        height: MediaQuery.of(context).size.height * 0.5,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Icon(
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 250,
+                  color: Colors.black,
+                ),
+                Positioned(
+                  top: 60,
+                  left: 16,
+                  right: 16,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/images/banner.png',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          height: bannerHeight,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF8B7355),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Icon(
                             Icons.local_cafe,
                             color: Colors.white,
                             size: 60,
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+            
+            SizedBox(height: bannerHeight * 0.35),
 
-            // Título e botão adicionar
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.05,
+                vertical: 20,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -565,7 +578,7 @@ class _HomeState extends State<Home> {
                       'Todos Itens',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: screenWidth * 0.025,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -586,7 +599,6 @@ class _HomeState extends State<Home> {
               ),
             ),
 
-            // Grid de produtos
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -614,15 +626,18 @@ class _HomeState extends State<Home> {
                     return Center(
                       child: Text(
                         'Nenhum produto cadastrado',
-                        style: TextStyle(color: Colors.white70, fontSize: 18),
+                        style: TextStyle(color: Colors.grey, fontSize: 18),
                       ),
                     );
                   }
 
                   return GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.05,
+                      vertical: 10,
+                    ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      crossAxisCount: screenWidth > 600 ? 3 : 2,
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 15,
                       childAspectRatio: 0.75,
@@ -642,8 +657,16 @@ class _HomeState extends State<Home> {
                             mostrarModalEditar(docId, nome, imagem, preco),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 255, 255, 255),
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                                offset: Offset(0, 4),
+                              ),
+                            ],
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -663,15 +686,15 @@ class _HomeState extends State<Home> {
                                           fit: BoxFit.cover,
                                           errorBuilder:
                                               (context, error, stackTrace) {
-                                                return Container(
-                                                  color: Color(0xFF2A2A2A),
-                                                  child: Icon(
-                                                    Icons.broken_image,
-                                                    color: Colors.grey,
-                                                    size: 50,
-                                                  ),
-                                                );
-                                              },
+                                            return Container(
+                                              color: Color(0xFF2A2A2A),
+                                              child: Icon(
+                                                Icons.broken_image,
+                                                color: Colors.grey,
+                                                size: 50,
+                                              ),
+                                            );
+                                          },
                                         )
                                       : Container(
                                           color: Color(0xFF2A2A2A),
@@ -702,7 +725,7 @@ class _HomeState extends State<Home> {
                                           Text(
                                             nome,
                                             style: TextStyle(
-                                              color: const Color.fromARGB(255, 0, 0, 0),
+                                              color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -726,7 +749,7 @@ class _HomeState extends State<Home> {
                                           Text(
                                             '\$ ${preco.toStringAsFixed(2)}',
                                             style: TextStyle(
-                                              color: const Color.fromARGB(255, 0, 0, 0),
+                                              color: Colors.black,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -749,17 +772,13 @@ class _HomeState extends State<Home> {
                                                 height: 25,
                                                 color: Colors.white,
                                                 errorBuilder:
-                                                    (
-                                                      context,
-                                                      error,
-                                                      stackTrace,
-                                                    ) {
-                                                      return Icon(
-                                                        Icons.delete,
-                                                        color: Colors.white,
-                                                        size: 20,
-                                                      );
-                                                    },
+                                                    (context, error, stackTrace) {
+                                                  return Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ),
@@ -783,7 +802,7 @@ class _HomeState extends State<Home> {
             Container(
               height: 70,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25),
                   topRight: Radius.circular(25),
