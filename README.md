@@ -31,4 +31,5 @@ O app possui uma interface simples, suporte a imagens via URL e atualizações e
 
 ### 1. Clone o repositório
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/yngridbaeta/prova3_mobile.git
+
