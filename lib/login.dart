@@ -12,13 +12,13 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController usuarioController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
 
-  // Usuário e senha para teste
+  // Usuario e senha
   final String usuarioTeste = "yngrid";
   final String senhaTeste = "1234";
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width; // AGORA FUNCIONA
+    final screenWidth = MediaQuery.of(context).size.width; 
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 45),
 
               SizedBox(
-                width: screenWidth * 0.7, // 🔥 BOTÃO MENOR
+                width: screenWidth * 0.7, 
                 height: 55,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(

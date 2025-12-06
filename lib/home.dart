@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  // Função para adicionar produto
+  // Funcao para adicionar produto
   Future<void> adicionarProduto(
     String nome,
     String imagem,
@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  // Função para editar produto
+  // função para editar produto
   Future<void> editarProduto(
     String docId,
     String nome,
@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  // Modal para adicionar produto
+  // modal para adicionar produto
   void mostrarModalAdicionar() {
     final nomeController = TextEditingController();
     final imagemController = TextEditingController();
@@ -464,7 +464,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // Modal de confirmação para excluir
+  // Modal de confirmacao para excluir
   void mostrarModalExcluir(String docId, String nome) {
     showDialog(
       context: context,
@@ -671,7 +671,6 @@ class _HomeState extends State<Home> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Imagem do produto
                               Expanded(
                                 flex: 3,
                                 child: ClipRRect(
@@ -707,7 +706,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
 
-                              // Info do produto
+                              // info do produto
                               Expanded(
                                 flex: 2,
                                 child: Padding(
@@ -797,8 +796,6 @@ class _HomeState extends State<Home> {
                 },
               ),
             ),
-
-            // Bottom Navigation
             Container(
               height: 70,
               decoration: BoxDecoration(
